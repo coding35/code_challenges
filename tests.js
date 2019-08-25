@@ -28,6 +28,19 @@ QUnit.test('Return the factorial. Reverse Loop', function (assert) {
 });
 
 
+QUnit.test('Return the factorial. Recursion', function (assert) {
+
+  function Execute(input) {
+    if (input === 1) {
+      return 1
+    } else {
+      return input * Execute(input - 1)
+    }
+  }
+  assert.ok(Execute(16) == 20922789888000, 'Passed!');
+  assert.ok(Execute(4) == 24, 'Passed!');
+});
+
 QUnit.test('Return the factorial. Forward Loop', function (assert) {
 
   // approx 6ms
@@ -37,6 +50,7 @@ QUnit.test('Return the factorial. Forward Loop', function (assert) {
   for (var i = 1; i <= num; i++) {
     factorial = factorial * i;
   }
+
   assert.ok(factorial == 24, 'Passed!');
 });
 
@@ -132,16 +146,16 @@ QUnit.test('Return replaced letter string. Replace each letter with subsequent l
 QUnit.test('Return replaced letter string. Replace each letter with subsequent letter. Then capitalize every vowel. Using character codes', function (assert) {
 
   function ReplaceLetter(str) {
-    var converted = str.replace(/[a-z]/gi, function(char) { 
+    var converted = str.replace(/[a-z]/gi, function (char) {
       return (char === 'z' || char === 'Z') ? 'a' : String.fromCharCode(char.charCodeAt() + 1);
     });
-  
+
     // we have now successfully converted each letter to the letter following it
     // in the alphabet, and all we need to do now is capitalize the vowels
-    var capitalized = converted.replace(/a|e|i|o|u/gi, function(vowel) { 
+    var capitalized = converted.replace(/a|e|i|o|u/gi, function (vowel) {
       return vowel.toUpperCase();
     });
-  
+
     // return the final string
     return capitalized;
   }
@@ -169,13 +183,45 @@ QUnit.test('Return sum. Add up all the numbers from 1 to input value. Using for 
 QUnit.test('Return sum. Add up all the numbers from 1 to input value. Using recursion', function (assert) {
 
   function Execute(input) {
-    if(input === 1){
+    if (input === 1) {
       return 1
-    }else{
-      return input + Execute(input -1)
+    } else {
+      return input + Execute(input - 1)
     }
   }
 
   assert.ok(Execute(4) == 10, 'Passed!');
   assert.ok(Execute(140) == 9870, 'Passed!');
 });
+
+
+QUnit.test('Return each word captialized. For loop.', function (assert) {
+
+  function Execute(input) {
+    let arr = input.split(' ');
+
+    for (let i = 0; i < arr.length; i++) {
+     let char = arr[i].split('')[0];
+     arr[i] = arr[i].replace(char, char.toUpperCase());
+    }
+
+    return arr.join(' ');
+  }
+
+  assert.ok(Execute('hello world') == 'Hello World', 'Passed!');
+  assert.ok(Execute('i ran there') == 'I Ran There', 'Passed!');
+});
+
+
+QUnit.test('Return each word captialized. Regex.', function (assert) {
+
+  function Execute(input) {
+    return input.replace(/\b[a-z]/gi, (char) => { 
+      return char.toUpperCase();
+    });
+  }
+
+  assert.ok(Execute('hello world') == 'Hello World', 'Passed!');
+  assert.ok(Execute('i ran there') == 'I Ran There', 'Passed!');
+});
+
