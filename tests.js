@@ -480,31 +480,113 @@ QUnit.test('string manipulation, searching, hash table', function (assert) {
 });
 
 
-/* 
-  Have the function ChessboardTraveling(str) read str which will be a string
-  consisting of the location of a space on a standard 8x8 chess board with
-  no pieces on the board along with another space on the chess board.
-  The structure of str will be the following: "(x y)(a b)" where (x y)
-  represents the position you are currently on with x and y ranging 
-  from 1 to 8 and (a b) represents some other space on the chess board
-  with a and b also ranging from 1 to 8 where a > x and b > y. 
-  Your program should determine how many ways there are of traveling 
-  from (x y) on the board to (a b) moving only up and to the right. 
-  
-  For example: if str is (1 1)(2 2) then your program should output 2 
-  because there are only two possible ways to travel from space (1 1) 
-  on a chessboard to space (2 2) while making only moves up and to the right. 
- 
-  */
+/*
+https://edabit.com/challenge/WjXHgXLAvMxNvD6h2
+Write a function that returns 0 if the input is 1, and returns 1 if the input is 0.
 
+Examples
+flip(1) ➞ 0
 
+flip(0) ➞ 1
 
-QUnit.test('Chessboard', function (assert) {
+Notes
+Try completing this challenge without using any:
+
+Conditionals
+Ternary operators
+Negations
+Bit operators
+*/
+QUnit.test('avoid conditionals', function (assert) {
 
   function Execute(num) {
 
+    return 0**num; // zero to the nth (num) power
   }
 
-  //assert.ok(Execute('(1 1)(3 3)') == 6, 'Passed!');
-  //assert.ok(Execute('(2 2)(4 3)') == 3, 'Passed!');
+  assert.ok(Execute(1) == 0, 'Passed!');
+  assert.ok(Execute(0) == 1, 'Passed!');
+});
+
+
+
+/*
+  https://edabit.com/challenge/erFxBbqzZPSegMwnc
+  Given a total due and an array representing the amount of change in
+  your pocket, determine whether or not you are able to pay for the item.
+  Change will always be represented in the following order:
+  quarters, dimes, nickels, pennies.
+
+  To illustrate: changeEnough([25, 20, 5, 0], 4.25) should yield true, 
+  since having 25 quarters, 20 dimes, 5 nickels and 0 pennies gives you
+  6.25 + 2 + .25 + 0 = 8.50.
+
+  Examples
+  Execute([2, 100, 0, 0], 14.11) ➞ false
+  Execute([0, 0, 20, 5], 0.75) ➞ true
+  Execute([30, 40, 20, 5], 12.55) ➞ true
+  Execute([10, 0, 0, 50], 3.85) ➞ false
+  Execute([1, 0, 5, 219], 19.99) ➞ false
+
+  Notes
+  quarter: 25 cents / $0.25
+  dime: 10 cents / $0.10
+  nickel: 5 cents / $0.05
+  penny: 1 cent / $0.01
+*/
+
+QUnit.test('enough change', function (assert) {
+
+  function Execute(changeArr, totalDue) {
+    var change = 0;
+    change += changeArr[0] * .25; 
+    change += changeArr[1] * .10; 
+    change += changeArr[2] * .05; 
+    change += changeArr[3] * .01; 
+    return change >= totalDue;
+  }
+
+  assert.ok(Execute([2, 100, 0, 0], 14.11) === false);
+  assert.ok(Execute([0, 0, 20, 5], 0.75) === true);
+  assert.ok(Execute([30, 40, 20, 5], 12.55) === true);
+  assert.ok(Execute([10, 0, 0, 50], 3.85) === false);
+  assert.ok(Execute([1, 0, 5, 219], 19.99) === false);
+
+});
+
+
+// refactored take on above with extracted calc function.
+// aside from input validation, this may be preferable at the
+// expense of additional lines. 
+QUnit.test('enough change refactor', function (assert) {
+  const denomination = [.25, .10, .05, .01];
+  
+  function Calculate(coins, index) {
+    return coins * denomination[index];
+  }
+
+  function Execute(changeArr, totalDue) {
+    var change = 0;
+    for (let i = 0; i < changeArr.length; i++) {
+      change += Calculate(changeArr[i], i)
+    }
+    return change >= totalDue;
+  }
+
+  assert.ok(Execute([2, 100, 0, 0], 14.11) === false);
+  assert.ok(Execute([0, 0, 20, 5], 0.75) === true);
+  assert.ok(Execute([30, 40, 20, 5], 12.55) === true);
+  assert.ok(Execute([10, 0, 0, 50], 3.85) === false);
+  assert.ok(Execute([1, 0, 5, 219], 19.99) === false);
+
+});
+
+QUnit.test('template', function (assert) {
+
+  function Execute(num) {
+    return true;
+  }
+
+  assert.ok(Execute() == true, 'Passed!');
+
 });
