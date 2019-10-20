@@ -447,19 +447,19 @@ QUnit.test('string manipulation, searching, hash table', function (assert) {
 
       console.log(arr)
       for (let i = 0; i < arr.length; i++) {
-        if(i % 2){
+        if (i % 2) {
           var x = arr[i].split('');
           x.forEach(e => {
-            
-            if(/[0-9]/.test(e)){
+
+            if (/[0-9]/.test(e)) {
               console.log(e)
             }
           });
 
           console.log(parseInt(x))
         }
-   
-        
+
+
       }
 
       return true;
@@ -501,7 +501,7 @@ QUnit.test('avoid conditionals', function (assert) {
 
   function Execute(num) {
 
-    return 0**num; // zero to the nth (num) power
+    return 0 ** num; // zero to the nth (num) power
   }
 
   assert.ok(Execute(1) == 0, 'Passed!');
@@ -539,10 +539,10 @@ QUnit.test('enough change', function (assert) {
 
   function Execute(changeArr, totalDue) {
     var change = 0;
-    change += changeArr[0] * .25; 
-    change += changeArr[1] * .10; 
-    change += changeArr[2] * .05; 
-    change += changeArr[3] * .01; 
+    change += changeArr[0] * .25;
+    change += changeArr[1] * .10;
+    change += changeArr[2] * .05;
+    change += changeArr[3] * .01;
     return change >= totalDue;
   }
 
@@ -560,7 +560,7 @@ QUnit.test('enough change', function (assert) {
 // expense of additional lines. 
 QUnit.test('enough change refactor', function (assert) {
   const denomination = [.25, .10, .05, .01];
-  
+
   function Calculate(coins, index) {
     return coins * denomination[index];
   }
@@ -568,7 +568,7 @@ QUnit.test('enough change refactor', function (assert) {
   function Execute(changeArr, totalDue) {
     var change = 0;
     for (let i = 0; i < changeArr.length; i++) {
-      change += Calculate(changeArr[i], i)
+      change += Calculate(changeArr[i], i);
     }
     return change >= totalDue;
   }
@@ -580,6 +580,74 @@ QUnit.test('enough change refactor', function (assert) {
   assert.ok(Execute([1, 0, 5, 219], 19.99) === false);
 
 });
+
+
+
+/*
+https://edabit.com/challenge/3jZyJTfsXTXXwAQkA
+Create a function that returns true if two arrays contain identical values,
+ and false otherwise.
+
+To solve this question, your friend writes the following code:
+
+function checkEquals(arr1, arr2) {
+if (arr1 === arr2) {
+  return true
+ } else {
+  return false
+ }
+}
+But testing the code, you see that something is not quite right.
+ Running the code yields the following results:
+
+checkEquals([1, 2], [1, 3]) ➞ false
+// Good so far...
+
+checkEquals([1, 2], [1, 2]) ➞ false
+// Yikes! What happened?
+Rewrite your friend's code so that it correctly checks if two arrays are equal.
+The tests below should pass:
+
+Examples
+checkEquals([1, 2], [1, 3]) ➞ false
+checkEquals([1, 2], [1, 2]) ➞ true
+checkEquals([4, 5, 6], [4, 5, 6]) ➞ true
+checkEquals([4, 7, 6], [4, 5, 6]) ➞ false
+
+Notes
+Hint: This has to do with value vs. reference types.
+*/
+
+
+QUnit.test('val vs ref types', function (assert) {
+  function Execute(arr1, arr2) {
+    console.log(arr1.every( e => arr2.includes(e) ));
+    if (JSON.stringify(arr1) === JSON.stringify(arr2)) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  assert.ok(Execute([1, 2], [1, 3]) === false);
+  assert.ok(Execute([1, 2], [1, 2]) === true);
+  assert.ok(Execute([4, 5, 6], [4, 5, 6]) === true);
+  assert.ok(Execute([4, 7, 6], [4, 5, 6]) === false);
+
+});
+
+QUnit.test('val vs ref types ES6. watch out IE', function (assert) {
+  function Execute(arr1, arr2) {
+    return arr1.every(e => arr2.includes(e));
+  }
+
+  assert.ok(Execute([1, 2], [1, 3]) === false);
+  assert.ok(Execute([1, 2], [1, 2]) === true);
+  assert.ok(Execute([4, 5, 6], [4, 5, 6]) === true);
+  assert.ok(Execute([4, 7, 6], [4, 5, 6]) === false);
+
+});
+
 
 QUnit.test('template', function (assert) {
 
